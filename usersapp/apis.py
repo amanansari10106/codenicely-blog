@@ -45,23 +45,13 @@ class LoginAPI(APIView):
                 user = authenticate(username=email, password=password)
                 if user  is None:
                     return Response(cresponse(False, message=messages.wrongCreddentials))
-                    # return Response({
-                    #     "status" : 400,
-                    #     "message" : messages.wrongCreddentials
-                    # })
+                    
                 refresh = RefreshToken.for_user(user)
-                # return Response({
-                #     'refresh' : str(refresh),
-                #     'access':str(refresh.access_token)
-                # })
+                
                 return Response(cresponse(True, data={"refresh":str(refresh), "access":str(refresh.access_token)}))
 
-            # return Response({
-            #     'status' : 400,
-            #     "message" : "something went wrong",
-            #     "data" : serializer.errors
-            # })
-            return Response(cresponse(False, message=messages.serializerError))
+            
+            return Response(cresponse(False, message=messages.serializerError, data=serializer.errors))
         
         except Exception as e:
             print(e)
