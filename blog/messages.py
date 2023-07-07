@@ -21,3 +21,11 @@ sucess = "sucess"
 blogDeleted = "Blog Deleted Sucessfully"
 
 notAuthorized = "Not Authorized"
+
+loggedIn = "Logged In"
+
+registered = "Registered Sucessfully"
+
+blogCreated = "Blog Crested Sucessfully"
+
+commentCreated = "Comment Added"

@@ -15,7 +15,7 @@ class CreateBlogAPI(APIView):
         if serializer.is_valid():
             serializer.save()
             print(serializer.data)
-            return Response(cresponse(True, message=messages.sucess, data=serializer.data))
+            return Response(cresponse(True, message=messages.sucess, data=serializer.data), message=messages.blogCreated)
         return Response(cresponse(False, message=messages.serializerError, data=serializer.errors))
     
 class CreateCommentAPI(APIView):
@@ -25,7 +25,7 @@ class CreateCommentAPI(APIView):
         if serializer.is_valid():
             serializer.save()
             print(serializer.data)
-            return Response(cresponse(True, message=messages.sucess, data=serializer.data))
+            return Response(cresponse(True, message=messages.sucess, data=serializer.data), message=messages.commentCreated)
         return Response(cresponse(False, message=messages.serializerError, data=serializer.errors))
     
 class ListBlogAPI(APIView):
