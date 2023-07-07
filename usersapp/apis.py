@@ -31,7 +31,7 @@ class RegisterAPI(APIView):
         user = User.objects.create_user(username=email, email=email, password=password, first_name = name)
         user.save()
         serializer = UserSerializer(user)
-        return Response(cresponse(True, data=serializer.data, message=messages.registered))
+        return Response(cresponse(True, message=messages.registered, data=serializer.data))
         
 
 class LoginAPI(APIView):
@@ -48,7 +48,7 @@ class LoginAPI(APIView):
                     
                 refresh = RefreshToken.for_user(user)
                 
-                return Response(cresponse(True, data={"refresh":str(refresh), "access":str(refresh.access_token)}), message=messages.loggedIn)
+                return Response(cresponse(True, message=messages.loggedIn, data={"refresh":str(refresh), "access":str(refresh.access_token)}))
 
             
             return Response(cresponse(False, message=messages.serializerError, data=serializer.errors))
@@ -56,7 +56,7 @@ class LoginAPI(APIView):
         except Exception as e:
             print(e)
             return Response({
-                'status' : 400,
+                'status' : 500,
                 "message" : "something went wrong",
                 "data" : "dsd"
             })
