@@ -45,7 +45,7 @@ class ListBlogAPI(APIView):
     pagination_class = listBlogPaginator
     serializer_class = ListBlogModelSerializer
     def get(self, request):
-        queryset = BlogModel.objects.all()
+        queryset = BlogModel.objects.all().order_by('-createdAt')
         paginator = self.pagination_class()
         paginated_queryset = paginator.paginate_queryset(queryset, request)
         serializer = self.serializer_class(paginated_queryset, many=True, context={"request":request})
