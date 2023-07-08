@@ -16,7 +16,7 @@ serializerError = "Serializer error occured"
 
 wrongCreddentials = "Email and / or password incorrect"
 
-sucess = "sucess"
+sucess = "success"
 
 blogDeleted = "Blog Deleted Sucessfully"
 
@@ -29,3 +29,5 @@ registered = "Registered Sucessfully"
 blogCreated = "Blog Crested Sucessfully"
 
 commentCreated = "Comment Added"
+
+blogNotExist = "Blog with given id does not exist"

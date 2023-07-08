@@ -4,20 +4,33 @@ from rest_framework.views import APIView
 from blog.utils import cresponse
 from blog import messages
 from rest_framework.response import Response
-from blogapp.serializers import CreateBlogModelSerializer, CreateCommentModelSerializer, ListBlogModelSerializer, ListCommentModelSerializer
+from blogapp.serializers import CreateBlogModelSerializer, CreateCommentModelSerializer, ListBlogModelSerializer, ListCommentModelSerializer, GetBlogModelSerializer
 from blogapp.paginationClasses  import listBlogPaginator, listCommentPaginator
 from blogapp.models import BlogModel, CommentModel
 from rest_framework.permissions import IsAuthenticated
 class CreateBlogAPI(APIView):
 
     def post(self, request):
+        print(request.data)
+        print("Printing Data")
         serializer = CreateBlogModelSerializer(data=request.data, context={"request":request}, partial=True)
         if serializer.is_valid():
             serializer.save()
             print(serializer.data)
             return Response(cresponse(True, message=messages.blogCreated, data=serializer.data))
+        print(serializer.errors)
         return Response(cresponse(False, message=messages.serializerError, data=serializer.errors))
     
+class GetBlogAPI(APIView):
+
+    def get(self, request, blogID):
+        if BlogModel.objects.filter(id=blogID).exists():
+            blog = BlogModel.objects.get(id=blogID)
+            serializer = GetBlogModelSerializer(blog, context={"request":request})
+            return Response(cresponse(True, data=serializer.data))
+        return Response(cresponse(False, message=messages.blogNotExist))        
+
+
 class CreateCommentAPI(APIView):
 
     def post(self, request):

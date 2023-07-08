@@ -49,3 +49,19 @@ class ListCommentModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentModel
         fields = "__all__"
+
+class GetBlogModelSerializer(serializers.ModelSerializer):
+    is_author = serializers.SerializerMethodField()
+    created_date = serializers.SerializerMethodField()
+    created_time = serializers.SerializerMethodField()
+    def get_created_date(self, obj):
+        date_string = obj.createdAt.strftime("%d/%m/%Y")
+        return date_string
+    def get_created_time(self, obj):
+        time_string = obj.createdAt.strftime("%H-%M-%S")
+        return time_string
+    def get_is_author(self, obj):
+        return obj.user == self.context["request"].user
+    class Meta:
+        model = BlogModel
+        fields = "__all__"
