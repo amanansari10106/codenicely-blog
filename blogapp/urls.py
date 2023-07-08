@@ -10,5 +10,5 @@ urlpatterns = [
     path("list/", apis.ListBlogAPI.as_view(), name="listBlogAPI"),
     path("comments/<int:blogID>/", apis.ListCommentsAPI.as_view(), name="listCommentsAPI"),
     path("delete/<int:blogID>/", apis.DeleteBlogAPI.as_view(), name="deleteBlogAPI"),
-
+# sdfsdfd
 ]
