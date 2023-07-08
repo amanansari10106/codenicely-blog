@@ -31,6 +31,7 @@ class ListBlogModelSerializer(serializers.ModelSerializer):
     is_author = serializers.SerializerMethodField()
     created_date = serializers.SerializerMethodField()
     created_time = serializers.SerializerMethodField()
+    author = serializers.SerializerMethodField()
     def get_created_date(self, obj):
         date_string = obj.createdAt.strftime("%d/%m/%Y")
         return date_string
@@ -39,6 +40,8 @@ class ListBlogModelSerializer(serializers.ModelSerializer):
         return time_string
     def get_is_author(self, obj):
         return obj.user == self.context["request"].user
+    def get_author(self, obj):
+        return obj.user.first_name
 
     class Meta:
         model = BlogModel
@@ -54,6 +57,7 @@ class GetBlogModelSerializer(serializers.ModelSerializer):
     is_author = serializers.SerializerMethodField()
     created_date = serializers.SerializerMethodField()
     created_time = serializers.SerializerMethodField()
+    author = serializers.SerializerMethodField()
     def get_created_date(self, obj):
         date_string = obj.createdAt.strftime("%d/%m/%Y")
         return date_string
@@ -62,6 +66,8 @@ class GetBlogModelSerializer(serializers.ModelSerializer):
         return time_string
     def get_is_author(self, obj):
         return obj.user == self.context["request"].user
+    def get_author(self, obj):
+        return obj.user.first_name
     class Meta:
         model = BlogModel
         fields = "__all__"
