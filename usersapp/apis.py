@@ -12,6 +12,7 @@ from usersapp.utils import test_password, validateEmail
 from blog.utils import cresponse
 from blog import messages
 from usersapp.serializers import UserSerializer
+from rest_framework.permissions import IsAuthenticated
 class RegisterAPI(APIView):
     def post(self, request):
         name = request.data["name"]
@@ -60,6 +61,19 @@ class LoginAPI(APIView):
                 "message" : "something went wrong",
                 "data" : "dsd"
             })
+        
+class GetUserDetailsAPI(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        
+        if request.user != None:
+            serializer = UserSerializer(request.user)
+            # return Response(cresponse(True, data=serializer.data))
+            return Response(cresponse(True, data=serializer.data))
+        
+            
+
+
 from rest_framework_simplejwt.views import TokenRefreshView      
 # class TestAPI(APIView):
 class TestAPI(TokenRefreshView):

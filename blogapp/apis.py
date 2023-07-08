@@ -9,7 +9,7 @@ from blogapp.paginationClasses  import listBlogPaginator, listCommentPaginator
 from blogapp.models import BlogModel, CommentModel
 from rest_framework.permissions import IsAuthenticated
 class CreateBlogAPI(APIView):
-
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         print(request.data)
         print("Printing Data")
@@ -32,7 +32,7 @@ class GetBlogAPI(APIView):
 
 
 class CreateCommentAPI(APIView):
-
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = CreateCommentModelSerializer(data=request.data, context={"request":request}, partial=True)
         if serializer.is_valid():
