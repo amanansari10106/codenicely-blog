@@ -6,6 +6,6 @@ class listBlogPaginator(PageNumberPagination):
     max_page_size = 50
     
 class listCommentPaginator(PageNumberPagination):
-    page_size = 5
+    page_size = 2
     page_size_query_param = "records"
     max_page_size = 50

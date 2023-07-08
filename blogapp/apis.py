@@ -57,11 +57,12 @@ class ListBlogAPI(APIView):
 class ListCommentsAPI(APIView):
     pagination_class = listCommentPaginator
     serializer_class = ListCommentModelSerializer
-    def get(self, request):
-        blog = BlogModel.objects.get(id=request.GET.get("blogID"))
-        queryset = CommentModel.objects.filter(blog=blog)
-        print(request.GET.get('blogID'))
-        print(queryset)
+    def get(self, request, blogID):
+        
+        # blog = BlogModel.objects.get(id=request.GET.get("blogID"))
+        blog = BlogModel.objects.get(id=blogID)
+        queryset = CommentModel.objects.filter(blog=blog).order_by('-postedAt')
+        
         paginator = self.pagination_class()
         paginated_queryset = paginator.paginate_queryset(queryset, request)
         serializer = self.serializer_class(paginated_queryset, many=True, context={"request":request})

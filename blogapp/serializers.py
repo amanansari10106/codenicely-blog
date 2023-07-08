@@ -48,7 +48,9 @@ class ListBlogModelSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class ListCommentModelSerializer(serializers.ModelSerializer):
-
+    author = serializers.SerializerMethodField()
+    def get_author(self, obj):
+        return obj.user.first_name
     class Meta:
         model = CommentModel
         fields = "__all__"
