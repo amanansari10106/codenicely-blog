@@ -49,8 +49,13 @@ class ListBlogModelSerializer(serializers.ModelSerializer):
 
 class ListCommentModelSerializer(serializers.ModelSerializer):
     author = serializers.SerializerMethodField()
+    is_edit = serializers.SerializerMethodField()
     def get_author(self, obj):
         return obj.user.first_name
+    def get_is_edit(self, obj):
+        print(obj.user)
+        print(self.context["request"].user)
+        return obj.user == self.context["request"].user
     class Meta:
         model = CommentModel
         fields = "__all__"
