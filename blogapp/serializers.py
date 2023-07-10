@@ -55,6 +55,15 @@ class ListCommentModelSerializer(serializers.ModelSerializer):
         model = CommentModel
         fields = "__all__"
 
+class UpdateCommentModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CommentModel
+        fields = "__all__"
+class UpdateBlogModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BlogModel
+        fields = "__all__"
+
 class GetBlogModelSerializer(serializers.ModelSerializer):
     is_author = serializers.SerializerMethodField()
     created_date = serializers.SerializerMethodField()

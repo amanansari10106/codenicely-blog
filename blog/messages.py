@@ -31,3 +31,9 @@ blogCreated = "Blog Crested Sucessfully"
 commentCreated = "Comment Added"
 
 blogNotExist = "Blog with given id does not exist"
+
+commentDeleted = "Comment Deleted Sucessfully"
+
+commentUpdated = "Comments Updated Sucessfully"
+
+blogUpdated = "Blog Updated Sucessfully"

@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from blog.utils import cresponse
 from blog import messages
 from rest_framework.response import Response
-from blogapp.serializers import CreateBlogModelSerializer, CreateCommentModelSerializer, ListBlogModelSerializer, ListCommentModelSerializer, GetBlogModelSerializer
+from blogapp.serializers import CreateBlogModelSerializer, UpdateBlogModelSerializer, CreateCommentModelSerializer, UpdateCommentModelSerializer, ListBlogModelSerializer, ListCommentModelSerializer, GetBlogModelSerializer
 from blogapp.paginationClasses  import listBlogPaginator, listCommentPaginator
 from blogapp.models import BlogModel, CommentModel
 from rest_framework.permissions import IsAuthenticated
@@ -82,3 +82,35 @@ class DeleteBlogAPI(APIView):
 
 
 
+class DeleteCommentAPI(APIView):
+    permission_classes = [IsAuthenticated]
+    def delete(self, request, commentID):
+        comment = CommentModel.objects.get(id=commentID)
+        if comment.blog.user == request.user:
+            comment.delete()
+            return Response (cresponse(True, message=messages.commentDeleted))
+        return Response(cresponse(False, message=messages.notAuthorized))
+    
+class EditCommentAPI(APIView):
+    permission_classes = [IsAuthenticated]
+    def patch(self, request, commentID):
+        comment = CommentModel.objects.get(id=commentID)
+        if comment.user != request.user:
+            return Response(cresponse(False, message=messages.notAuthorized))
+        serializer = UpdateCommentModelSerializer(comment,data=request.data, partial=True)
+        if serializer.is_valid():
+                serializer.save()
+                return Response(cresponse(True, message=messages.commentUpdated, data=serializer.data))
+        return Response(cresponse(False, message=messages.serializerError))
+
+class EditBlogAPI(APIView):
+    permission_classes = [IsAuthenticated]
+    def patch(self, request, blogID):
+        blog = BlogModel.objects.get(id=blogID)
+        if blog.user != request.user:
+            return Response(cresponse(False, message=messages.notAuthorized))
+        serializer = UpdateBlogModelSerializer(blog,data=request.data, partial=True)
+        if serializer.is_valid():
+                serializer.save()
+                return Response(cresponse(True, message=messages.blogUpdated, data=serializer.data))
+        return Response(cresponse(False, message=messages.serializerError))
